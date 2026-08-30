@@ -37,105 +37,105 @@ export class GraphApiService {
     inject(HttpClient);
 
   private readonly apiUrl =
-    '/api/graph';
+    'https://wexa-graph-api.onrender.com/api/graph';
 
   getSummary(): Observable<GraphSummary[]> {
 
     return this.http
       .get<ApiArrayResponse<GraphSummary>>(
-        `${this.apiUrl}/summary`
+        `${ this.apiUrl }/summary`
       )
       .pipe(
-        map(response =>
-          Array.isArray(response)
-            ? response
-            : response.value
-        ),
+  map(response =>
+    Array.isArray(response)
+      ? response
+      : response.value
+  ),
 
-        catchError(error => {
+  catchError(error => {
 
-          console.error(
-            'Graph summary request failed:',
-            error
-          );
+    console.error(
+      'Graph summary request failed:',
+      error
+    );
 
-          return throwError(
-            () =>
-              new Error(
-                'Unable to load graph summary. Make sure the API is running.'
-              )
-          );
-        })
-      );
+    return throwError(
+      () =>
+        new Error(
+          'Unable to load graph summary. Make sure the API is running.'
+        )
+    );
+  })
+);
   }
 
-  getMissingTalent(
-    projectName: string
-  ): Observable<MissingTalent[]> {
+getMissingTalent(
+  projectName: string
+): Observable < MissingTalent[] > {
 
-    const encodedProject =
-      encodeURIComponent(projectName);
+  const encodedProject =
+    encodeURIComponent(projectName);
 
-    return this.http
-      .get<ApiArrayResponse<MissingTalent>>(
-        `${this.apiUrl}/projects/${encodedProject}/missing-talent`
-      )
-      .pipe(
-        map(response =>
-          Array.isArray(response)
-            ? response
-            : response.value
-        ),
+  return this.http
+    .get<ApiArrayResponse<MissingTalent>>(
+      `${this.apiUrl}/projects/${encodedProject}/missing-talent`
+    )
+    .pipe(
+      map(response =>
+        Array.isArray(response)
+          ? response
+          : response.value
+      ),
 
-        catchError(error => {
+      catchError(error => {
 
-          console.error(
-            'Missing talent request failed:',
-            error
-          );
+        console.error(
+          'Missing talent request failed:',
+          error
+        );
 
-          return throwError(
-            () =>
-              new Error(
-                'Unable to load missing talent data. Check the project name and API connection.'
-              )
-          );
-        })
-      );
-  }
+        return throwError(
+          () =>
+            new Error(
+              'Unable to load missing talent data. Check the project name and API connection.'
+            )
+        );
+      })
+    );
+}
 
-  getDependencies(
-    projectName: string
-  ): Observable<ProjectDependency[]> {
+getDependencies(
+  projectName: string
+): Observable < ProjectDependency[] > {
 
-    const encodedProject =
-      encodeURIComponent(projectName);
+  const encodedProject =
+    encodeURIComponent(projectName);
 
-    return this.http
-      .get<ApiArrayResponse<ProjectDependency>>(
-        `${this.apiUrl}/projects/${encodedProject}/dependencies`
-      )
-      .pipe(
-        map(response =>
-          Array.isArray(response)
-            ? response
-            : response.value
-        ),
+  return this.http
+    .get<ApiArrayResponse<ProjectDependency>>(
+      `${this.apiUrl}/projects/${encodedProject}/dependencies`
+    )
+    .pipe(
+      map(response =>
+        Array.isArray(response)
+          ? response
+          : response.value
+      ),
 
-        catchError(error => {
+      catchError(error => {
 
-          console.error(
-            'Dependency request failed:',
-            error
-          );
+        console.error(
+          'Dependency request failed:',
+          error
+        );
 
-          return throwError(
-            () =>
-              new Error(
-                'Unable to load project dependencies. Check the project name and API connection.'
-              )
-          );
-        })
-      );
-  }
+        return throwError(
+          () =>
+            new Error(
+              'Unable to load project dependencies. Check the project name and API connection.'
+            )
+        );
+      })
+    );
+}
 }
