@@ -1,3 +1,4 @@
+using Microsoft.AspNetCore.Mvc;
 using WexaGraphExplorer.Application.Graph;
 
 namespace WexaGraphExplorer.Api.Endpoints;
@@ -18,7 +19,7 @@ public static class GraphExplorerEndpoints
         group.MapGet(
             "/health",
             async (
-                GraphExplorerService service,
+                [FromServices] GraphExplorerService service,
                 CancellationToken ct) =>
             {
                 try
@@ -47,7 +48,7 @@ public static class GraphExplorerEndpoints
         group.MapGet(
             "/summary",
             async (
-                GraphExplorerService service,
+                [FromServices] GraphExplorerService service,
                 CancellationToken ct) =>
             {
                 try
@@ -77,7 +78,7 @@ public static class GraphExplorerEndpoints
             "/projects/{projectName}/missing-talent",
             async (
                 string projectName,
-                GraphExplorerService service,
+                [FromServices] GraphExplorerService service,
                 CancellationToken ct) =>
             {
                 if (string.IsNullOrWhiteSpace(projectName))
@@ -119,7 +120,7 @@ public static class GraphExplorerEndpoints
             "/projects/{projectName}/dependencies",
             async (
                 string projectName,
-                GraphExplorerService service,
+                [FromServices] GraphExplorerService service,
                 CancellationToken ct) =>
             {
                 if (string.IsNullOrWhiteSpace(projectName))

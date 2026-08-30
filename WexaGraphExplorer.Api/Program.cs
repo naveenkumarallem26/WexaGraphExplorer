@@ -55,7 +55,12 @@ if (!hasCognoDbConfig)
     Console.WriteLine(
         "WARNING: CognoDB environment variables are not fully configured.");
 }
-else
+
+// ------------------------------------------------------------
+// Dependency Injection
+// ------------------------------------------------------------
+
+if (hasCognoDbConfig)
 {
     builder.Services.AddSingleton<IDriver>(_ =>
         CognoDbDriverFactory.Create(cognoDbSettings));
@@ -79,19 +84,16 @@ var app = builder.Build();
 // Swagger
 // ------------------------------------------------------------
 
-if (app.Environment.IsDevelopment())
-{
-    app.UseSwagger();
-    app.UseSwaggerUI();
-}
+// Swagger is enabled in all environments so it is available
+// when the application is deployed to Render.
+app.UseSwagger();
+app.UseSwaggerUI();
 
 // ------------------------------------------------------------
 // HTTP Pipeline
 // ------------------------------------------------------------
 
 app.UseCors("Angular");
-
-app.UseHttpsRedirection();
 
 app.MapControllers();
 
@@ -125,6 +127,9 @@ if (hasCognoDbConfig)
         await seeder.SeedAsync(
             cognoDbSettings,
             seedFilePath);
+
+        Console.WriteLine(
+            "CognoDB initialization completed successfully.");
     }
     catch (Exception ex)
     {
@@ -133,7 +138,7 @@ if (hasCognoDbConfig)
 
         Console.WriteLine(
             "The API will remain running. " +
-            "Graph operations will return service-unavailable errors.");
+            "Graph operations may return service-unavailable errors.");
     }
 }
 
