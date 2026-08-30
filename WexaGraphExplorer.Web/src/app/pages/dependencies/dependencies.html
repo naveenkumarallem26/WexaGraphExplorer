@@ -1,0 +1,384 @@
+<section class="dependencies-page">
+
+  <!-- =========================================================
+       PAGE HEADER
+       ========================================================= -->
+  <header class="page-header">
+
+    <div class="header-content">
+
+      <span class="eyebrow">
+        GRAPH EXPLORER
+      </span>
+
+      <h1>
+        Project
+        <span>Dependencies</span>
+      </h1>
+
+      <p>
+        Explore multi-hop relationships between projects
+        through shared skills and developers.
+      </p>
+
+    </div>
+
+    <div class="graph-badge">
+      <span class="pulse"></span>
+      <span>LIVE GRAPH</span>
+    </div>
+
+  </header>
+
+
+  <!-- =========================================================
+       SEARCH
+       ========================================================= -->
+  <section class="search-card">
+
+    <div class="search-label">
+      TARGET PROJECT
+    </div>
+
+    <div class="search-row">
+
+      <div class="input-box">
+
+        <span class="input-prefix">
+          PR
+        </span>
+
+        <input type="text"
+               [(ngModel)]="projectName"
+               (keyup.enter)="search()"
+               placeholder="Enter project name"
+               autocomplete="off"
+               aria-label="Target project name" />
+
+        @if (projectName) {
+
+        <button type="button"
+                class="clear-button"
+                aria-label="Clear project name"
+                (click)="clear()">
+          ×
+        </button>
+
+        }
+
+      </div>
+
+
+      <button type="button"
+              class="search-button"
+              [disabled]="loading || !projectName.trim()"
+              (click)="search()">
+
+        @if (loading) {
+
+        <span class="spinner"></span>
+        <span>Searching...</span>
+
+        } @else {
+
+        <span>Explore Graph</span>
+
+        }
+
+      </button>
+
+    </div>
+
+    <small>
+      Example: Employee Management Portal
+    </small>
+
+  </section>
+
+
+  <!-- =========================================================
+       ERROR
+       ========================================================= -->
+  @if (errorMessage) {
+
+  <section class="error-card"
+           role="alert">
+
+    <div class="error-icon">
+      !
+    </div>
+
+    <div class="error-copy">
+
+      <span class="eyebrow">
+        REQUEST FAILED
+      </span>
+
+      <h3>
+        Unable to load dependencies
+      </h3>
+
+      <p>
+        {{ errorMessage }}
+      </p>
+
+    </div>
+
+    <button type="button"
+            class="retry-button"
+            (click)="retry()">
+      Retry
+    </button>
+
+  </section>
+
+  }
+
+
+  <!-- =========================================================
+       LOADING
+       ========================================================= -->
+  @if (loading) {
+
+  <section class="loading-state"
+           aria-live="polite">
+
+    <div class="loading-orb">
+      <span></span>
+    </div>
+
+    <h3>
+      Exploring the graph
+    </h3>
+
+    <p>
+      Finding connected projects and shared developers...
+    </p>
+
+  </section>
+
+  }
+
+
+  <!-- =========================================================
+       RESULTS
+       ========================================================= -->
+  @if (!loading && searched && !errorMessage) {
+
+  @if (dependencies.length === 0) {
+
+  <!-- =====================================================
+       NO RESULTS
+       ===================================================== -->
+  <section class="empty-card">
+
+    <div class="empty-icon">
+      DP
+    </div>
+
+    <span class="eyebrow">
+      GRAPH SEARCH
+    </span>
+
+    <h3>
+      No dependencies found
+    </h3>
+
+    <p>
+      No connected projects were found for
+      <strong>{{ projectName }}</strong>.
+    </p>
+
+    <button type="button"
+            class="secondary-button"
+            (click)="clear()">
+      Search Another Project
+    </button>
+
+  </section>
+
+  } @else {
+
+  <!-- =====================================================
+       RESULTS CARD
+       ===================================================== -->
+  <section class="results-card">
+
+    <div class="card-header">
+
+      <div>
+
+        <span class="eyebrow">
+          GRAPH RESULTS
+        </span>
+
+        <h2>
+          Connected Projects
+        </h2>
+
+        <p>
+          Projects connected through shared developers
+          and graph relationships.
+        </p>
+
+      </div>
+
+      <div class="result-count">
+        {{ dependencies.length }}
+      </div>
+
+    </div>
+
+
+    <!-- ===================================================
+         DEPENDENCY LIST
+         =================================================== -->
+    <div class="dependency-list">
+
+      @for (
+      dependency of dependencies;
+      track $index
+      ) {
+
+      <article class="dependency-card">
+
+        <!-- ---------------------------------------------
+             CONNECTED PROJECT
+             --------------------------------------------- -->
+        <div class="dependency-top">
+
+          <div class="project-icon">
+            PR
+          </div>
+
+          <div class="project-copy">
+
+            <span>
+              CONNECTED PROJECT
+            </span>
+
+            <h3>
+              {{ dependency.connectedProject }}
+            </h3>
+
+          </div>
+
+        </div>
+
+
+        <!-- ---------------------------------------------
+             SHARED DEVELOPER
+             --------------------------------------------- -->
+        <div class="developer-row">
+
+          <div class="developer-icon">
+            DV
+          </div>
+
+          <div class="developer-copy">
+
+            <span>
+              SHARED DEVELOPER
+            </span>
+
+            <strong>
+              {{ dependency.sharedDeveloper }}
+            </strong>
+
+          </div>
+
+        </div>
+
+
+        <!-- ---------------------------------------------
+             DEPENDENCY PATH
+             --------------------------------------------- -->
+        @if (
+        dependency.dependencyChain.length > 0
+        ) {
+
+        <div class="path-section">
+
+          <span class="path-label">
+            DEPENDENCY PATH
+          </span>
+
+          <div class="path">
+
+            @for (
+            node of dependency.dependencyChain;
+            track $index
+            ) {
+
+            <span class="path-node">
+              {{ node }}
+            </span>
+
+            @if (
+            $index <
+            dependency.dependencyChain.length - 1
+            ) {
+
+            <span class="path-arrow"
+                  aria-hidden="true">
+              →
+            </span>
+
+            }
+
+            }
+
+          </div>
+
+        </div>
+
+        }
+
+      </article>
+
+      }
+
+    </div>
+
+  </section>
+
+  }
+
+  }
+
+
+  <!-- =========================================================
+       INITIAL STATE
+       ========================================================= -->
+  @if (!searched && !loading && !errorMessage) {
+
+  <section class="empty-card initial">
+
+    <div class="empty-icon">
+      DP
+    </div>
+
+    <span class="eyebrow">
+      KNOWLEDGE GRAPH
+    </span>
+
+    <h3>
+      Explore your project graph
+    </h3>
+
+    <p>
+      Enter a project name to discover connected projects,
+      shared developers, and dependency paths.
+    </p>
+
+    <div class="initial-hint">
+      <span>TIP</span>
+      Try searching for
+      <strong>Employee Management Portal</strong>
+    </div>
+
+  </section>
+
+  }
+
+</section>

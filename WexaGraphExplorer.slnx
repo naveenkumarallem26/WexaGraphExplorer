@@ -1,0 +1,6 @@
+<Solution>
+  <Project Path="WexaGraphExplorer.Api/WexaGraphExplorer.Api.csproj" />
+  <Project Path="WexaGraphExplorer.Application/WexaGraphExplorer.Application.csproj" />
+  <Project Path="WexaGraphExplorer.Domain/WexaGraphExplorer.Domain.csproj" />
+  <Project Path="WexaGraphExplorer.Infrastructure/WexaGraphExplorer.Infrastructure.csproj" />
+</Solution>

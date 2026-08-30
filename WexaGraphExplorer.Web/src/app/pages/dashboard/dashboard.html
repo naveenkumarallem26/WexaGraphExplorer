@@ -1,0 +1,302 @@
+<section class="dashboard-page">
+
+  <div class="hero">
+
+    <div class="hero-content">
+
+      <div class="eyebrow">
+        <span></span>
+        KNOWLEDGE GRAPH
+      </div>
+
+      <h2>
+        Understand your
+        <span>graph.</span>
+      </h2>
+
+      <p>
+        Explore projects, developers, skills,
+        companies and the relationships connecting
+        your engineering ecosystem.
+      </p>
+
+    </div>
+
+    <div class="hero-status">
+
+      <div class="status-ring">
+        <div class="status-core"></div>
+      </div>
+
+      <div>
+        <strong>CognoDB Online</strong>
+        <span>Graph database connection active</span>
+      </div>
+
+    </div>
+
+  </div>
+
+  @if (loading) {
+
+  <div class="stats-grid">
+
+    @for (item of [1, 2, 3, 4, 5]; track item) {
+
+    <article class="stat-card skeleton-card">
+
+      <div class="skeleton icon"></div>
+
+      <div class="skeleton text"></div>
+
+      <div class="skeleton number"></div>
+
+    </article>
+
+    }
+
+  </div>
+
+  }
+
+  @if (!loading && !errorMessage) {
+
+  <div class="stats-grid">
+
+    <article class="stat-card">
+
+      <div class="stat-icon purple">
+        PR
+      </div>
+
+      <div class="stat-content">
+        <span>Projects</span>
+        <strong>{{ getCount('Project') }}</strong>
+        <small>Graph projects</small>
+      </div>
+
+    </article>
+
+    <article class="stat-card">
+
+      <div class="stat-icon blue">
+        DV
+      </div>
+
+      <div class="stat-content">
+        <span>Developers</span>
+        <strong>{{ getCount('Developer') }}</strong>
+        <small>Connected developers</small>
+      </div>
+
+    </article>
+
+    <article class="stat-card">
+
+      <div class="stat-icon cyan">
+        SK
+      </div>
+
+      <div class="stat-content">
+        <span>Skills</span>
+        <strong>{{ getCount('Skill') }}</strong>
+        <small>Technology skills</small>
+      </div>
+
+    </article>
+
+    <article class="stat-card">
+
+      <div class="stat-icon green">
+        CO
+      </div>
+
+      <div class="stat-content">
+        <span>Companies</span>
+        <strong>{{ getCount('Company') }}</strong>
+        <small>Organizations</small>
+      </div>
+
+    </article>
+
+    <article class="stat-card">
+
+      <div class="stat-icon orange">
+        TE
+      </div>
+
+      <div class="stat-content">
+        <span>Technology</span>
+        <strong>{{ getCount('Technology') }}</strong>
+        <small>Technology nodes</small>
+      </div>
+
+    </article>
+
+  </div>
+
+  <div class="dashboard-grid">
+
+    <section class="graph-card">
+
+      <div class="card-header">
+
+        <div>
+          <span class="section-label">
+            GRAPH VISUALIZATION
+          </span>
+
+          <h3>
+            Knowledge Network
+          </h3>
+        </div>
+
+        <span class="live-badge">
+          ● LIVE
+        </span>
+
+      </div>
+
+      <div class="graph-stage">
+
+        <div class="grid-lines"></div>
+
+        <div class="orbit orbit-one"></div>
+        <div class="orbit orbit-two"></div>
+        <div class="orbit orbit-three"></div>
+
+        <div class="connection connection-a"></div>
+        <div class="connection connection-b"></div>
+        <div class="connection connection-c"></div>
+        <div class="connection connection-d"></div>
+
+        <div class="graph-node center">
+          WEXA
+        </div>
+
+        <div class="graph-node project-node">
+          PROJECTS
+        </div>
+
+        <div class="graph-node developer-node">
+          DEVELOPERS
+        </div>
+
+        <div class="graph-node skill-node">
+          SKILLS
+        </div>
+
+        <div class="graph-node company-node">
+          COMPANIES
+        </div>
+
+      </div>
+
+    </section>
+
+    <section class="actions-card">
+
+      <div class="card-header">
+
+        <div>
+          <span class="section-label">
+            WORKSPACE
+          </span>
+
+          <h3>
+            Quick Actions
+          </h3>
+        </div>
+
+      </div>
+
+      <a routerLink="/talent-finder"
+         class="action-card">
+
+        <div class="action-icon">
+          TF
+        </div>
+
+        <div class="action-copy">
+
+          <strong>
+            Find Talent
+          </strong>
+
+          <span>
+            Discover developers matching
+            project requirements.
+          </span>
+
+        </div>
+
+        <span class="arrow">
+          →
+        </span>
+
+      </a>
+
+      <a routerLink="/dependencies"
+         class="action-card">
+
+        <div class="action-icon">
+          DP
+        </div>
+
+        <div class="action-copy">
+
+          <strong>
+            Explore Dependencies
+          </strong>
+
+          <span>
+            Discover connected projects,
+            skills and developers.
+          </span>
+
+        </div>
+
+        <span class="arrow">
+          →
+        </span>
+
+      </a>
+
+    </section>
+
+  </div>
+
+  }
+
+  @if (errorMessage) {
+
+  <section class="error-card">
+
+    <div class="error-icon">
+      !
+    </div>
+
+    <div class="error-copy">
+
+      <h3>
+        Graph API unavailable
+      </h3>
+
+      <p>
+        {{ errorMessage }}
+      </p>
+
+      <button type="button"
+              (click)="loadSummary()">
+
+        Retry connection
+
+      </button>
+
+    </div>
+
+  </section>
+
+  }
+
+</section>

@@ -1,0 +1,157 @@
+<div class="app-background">
+
+  <div class="ambient ambient-one"></div>
+  <div class="ambient ambient-two"></div>
+  <div class="ambient ambient-three"></div>
+
+  <aside class="sidebar">
+
+    <div class="brand">
+
+      <div class="brand-mark">
+        W
+      </div>
+
+      <div class="brand-copy">
+        <strong>Wexa</strong>
+        <span>Graph Explorer</span>
+      </div>
+
+    </div>
+
+    <div class="workspace-label">
+      WORKSPACE
+    </div>
+
+    <nav class="navigation">
+
+      <a routerLink="/dashboard"
+         routerLinkActive="active"
+         [routerLinkActiveOptions]="{ exact: true }">
+
+        <span class="nav-icon">
+          ⌂
+        </span>
+
+        <span>
+          Dashboard
+        </span>
+
+      </a>
+
+      <a routerLink="/talent-finder"
+         routerLinkActive="active">
+
+        <span class="nav-icon">
+          TF
+        </span>
+
+        <span>
+          Talent Finder
+        </span>
+
+      </a>
+
+      <a routerLink="/dependencies"
+         routerLinkActive="active">
+
+        <span class="nav-icon">
+          DP
+        </span>
+
+        <span>
+          Dependencies
+        </span>
+
+      </a>
+
+    </nav>
+
+    <div class="sidebar-bottom">
+
+      <div class="connection-card">
+
+        <div class="connection-title">
+
+          <span class="status-dot"></span>
+
+          <span>
+            API Connected
+          </span>
+
+        </div>
+
+        <span class="connection-url">
+          localhost:5021
+        </span>
+
+      </div>
+
+      <div class="version-row">
+
+        <span>
+          Wexa Graph Explorer
+        </span>
+
+        <span>
+          v1.0
+        </span>
+
+      </div>
+
+    </div>
+
+  </aside>
+
+  <main class="main-content">
+
+    <header class="topbar">
+
+      <div>
+
+        <span class="topbar-kicker">
+          KNOWLEDGE GRAPH
+        </span>
+
+        <h1>
+          Wexa
+          <span>Graph Explorer</span>
+        </h1>
+
+      </div>
+
+      <div class="environment-pill">
+
+        <span class="pulse"></span>
+
+        LOCAL
+
+      </div>
+
+    </header>
+
+    <section class="page-container">
+
+      <router-outlet></router-outlet>
+
+    </section>
+
+    <footer class="footer">
+
+      <span>
+        Wexa Graph Explorer
+      </span>
+
+      <span>
+        Connected to CognoDB
+      </span>
+
+      <span>
+        © {{ currentYear }}
+      </span>
+
+    </footer>
+
+  </main>
+
+</div>

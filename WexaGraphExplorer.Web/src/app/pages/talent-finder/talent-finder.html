@@ -1,0 +1,318 @@
+<div class="talent-page">
+
+  <section class="page-heading">
+
+    <div>
+
+      <div class="eyebrow">
+        <span></span>
+        INTELLIGENT TALENT MATCHING
+      </div>
+
+      <h2>
+        Find the right
+        <span>talent.</span>
+      </h2>
+
+      <p>
+        Discover developers who match a project's
+        required skills but haven't already worked
+        on that project.
+      </p>
+
+    </div>
+
+    <div class="feature-chip">
+      <span>AI</span>
+      Graph-powered matching
+    </div>
+
+  </section>
+
+
+  <section class="search-panel">
+
+    <div class="input-wrapper">
+
+      <label>
+        TARGET PROJECT
+      </label>
+
+      <div class="input-row">
+
+        <div class="input-icon">
+          PR
+        </div>
+
+        <input type="text"
+               [(ngModel)]="projectName"
+               placeholder="Enter project name"
+               (keyup.enter)="searchTalent()" />
+
+        @if (projectName) {
+
+        <button class="clear-button"
+                type="button"
+                (click)="projectName = ''">
+
+          ×
+
+        </button>
+
+        }
+
+      </div>
+
+      <small>
+        Example: Employee Management Portal
+      </small>
+
+    </div>
+
+
+    <button type="button"
+            class="search-button"
+            [disabled]="loading"
+            (click)="searchTalent()">
+
+      @if (loading) {
+
+      <span class="spinner"></span>
+
+      Searching...
+
+      } @else {
+
+      <span>⌕</span>
+
+      Search Talent
+
+      }
+
+    </button>
+
+  </section>
+
+
+  @if (errorMessage) {
+
+  <div class="error-banner">
+
+    <span>!</span>
+
+    <div>
+
+      <strong>
+        Search failed
+      </strong>
+
+      <p>
+        {{ errorMessage }}
+      </p>
+
+    </div>
+
+    <button type="button"
+            (click)="searchTalent()">
+
+      Retry
+
+    </button>
+
+  </div>
+
+  }
+
+
+  <section class="results-section">
+
+    <div class="section-header">
+
+      <div>
+
+        <span class="section-kicker">
+          RECOMMENDATIONS
+        </span>
+
+        <h3>
+          Recommended Developers
+        </h3>
+
+      </div>
+
+      @if (searched && !loading) {
+
+      <span class="result-count">
+        {{ developers.length }} matches
+      </span>
+
+      }
+
+    </div>
+
+
+    @if (loading) {
+
+    <div class="loading-grid">
+
+      @for (item of [1, 2, 3]; track item) {
+
+      <div class="developer-card skeleton-card">
+
+        <div class="skeleton avatar"></div>
+
+        <div class="skeleton line large"></div>
+
+        <div class="skeleton line"></div>
+
+        <div class="skeleton line small"></div>
+
+      </div>
+
+      }
+
+    </div>
+
+    }
+
+
+    @if (!loading && searched && developers.length > 0) {
+
+    <div class="developers-grid">
+
+      @for (
+      developer of developers;
+      track developer.developerId
+      ) {
+
+      <article class="developer-card">
+
+        <div class="developer-top">
+
+          <div class="avatar">
+            {{ developer.developerName.charAt(0) }}
+          </div>
+
+          <div class="developer-info">
+
+            <h4>
+              {{ developer.developerName }}
+            </h4>
+
+            <span>
+              {{ developer.developerId }}
+            </span>
+
+          </div>
+
+          <div class="match-badge">
+            MATCH
+          </div>
+
+        </div>
+
+
+        <div class="company">
+
+          <span class="company-icon">
+            CO
+          </span>
+
+          <span>
+            {{ developer.company || 'Independent' }}
+          </span>
+
+        </div>
+
+
+        <div class="skills-section">
+
+          <span class="skills-title">
+            MATCHING SKILLS
+          </span>
+
+          <div class="skills">
+
+            @for (
+            skill of developer.matchingSkills;
+            track skill
+            ) {
+
+            <span class="skill">
+              {{ skill }}
+            </span>
+
+            }
+
+          </div>
+
+        </div>
+
+
+        <div class="developer-footer">
+
+          <span>
+            Project history
+          </span>
+
+          <strong>
+            {{ developer.workCount }}
+          </strong>
+
+        </div>
+
+      </article>
+
+      }
+
+    </div>
+
+    }
+
+
+    @if (!loading && searched && developers.length === 0 && !errorMessage) {
+
+    <div class="empty-state">
+
+      <div class="empty-icon">
+        TF
+      </div>
+
+      <h3>
+        No matching developers
+      </h3>
+
+      <p>
+        No eligible developers were found for
+        <strong>{{ projectName }}</strong>.
+      </p>
+
+    </div>
+
+    }
+
+
+    @if (!searched && !loading) {
+
+    <div class="empty-state">
+
+      <div class="empty-icon">
+        TF
+      </div>
+
+      <h3>
+        Ready to find talent
+      </h3>
+
+      <p>
+        Enter a project name above to discover
+        developers with matching skills.
+      </p>
+
+    </div>
+
+    }
+
+  </section>
+
+</div>
